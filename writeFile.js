@@ -1,26 +1,17 @@
 const fs = require('fs');
 const path = require('path');
 
-function mkdir (dest) {
-  const fullPath = path.resolve(dest);
+const mkdir = require('./mkdir');
+const handle = require('./handleError');
 
-  if (fs.existsSync(fullPath)) return;
+module.exports = function (src, dest, cb) {
+  mkdir(path.dirname(dest), () => {
+    let rs = fs.createReadStream(src);
+    let ws = fs.createWriteStream(dest);
 
-  try {
-    fs.mkdirSync(fullPath);
-  } catch (e) {
-    if (e.code === 'ENOENT') {
-      mkdir(path.parse(fullPath).dir);
-      mkdir(fullPath);
-    } else throw (e);
-  }
-}
-
-module.exports = function (str, dest) {
-  const ext = path.extname(str).slice(1);
-  const letter = path.basename(str)[0].toUpperCase();
-
-  mkdir(dest);
-  mkdir(path.join(dest, ext));
-  mkdir(path.join(dest, ext, letter));
+    rs.on('error', handle)
+      .pipe(ws)
+      .on('error', handle)
+      .on('finish', cb);
+  });
 };

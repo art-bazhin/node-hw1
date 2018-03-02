@@ -1,32 +1,37 @@
 const fs = require('fs');
 const path = require('path');
 
-function getFileList (dir) {
-  let files;
-  let array = [];
+const handle = require('./handleError');
 
-  try {
-    files = fs.readdirSync(dir);
-  } catch (e) {
-    switch (e.code) {
-      case 'ENOENT':
-        console.log(`No such directory ${dir}`);
-    }
-    process.exit(1);
-  }
+function getDirFiles (dir, cb, obj) {
+  fs.readdir(dir, (err, files) => {
+    handle(err);
 
-  files.forEach(str => {
-    let fullPath = path.resolve(dir, str);
-    let stat = fs.lstatSync(fullPath);
+    obj.total += files.length;
+    obj.counter++;
 
-    if (stat.isFile()) {
-      array.push(fullPath);
-    } else if (stat.isDirectory()) {
-      array = array.concat(getFileList(fullPath));
-    }
+    files.forEach(str => {
+      let fullPath = path.resolve(dir, str);
+      fs.stat(fullPath, (err, stat) => {
+        handle(err);
+
+        if (stat.isFile()) {
+          obj.files.push(fullPath);
+          obj.counter++;
+        } else if (stat.isDirectory()) {
+          getDirFiles(fullPath, cb, obj);
+        }
+
+        if (obj.total === obj.counter) cb(obj.files);
+      });
+    });
   });
-
-  return array;
 }
 
-module.exports = getFileList;
+module.exports = function (dir, cb) {
+  getDirFiles(dir, cb, {
+    files: [],
+    total: 1,
+    counter: 0
+  });
+};
