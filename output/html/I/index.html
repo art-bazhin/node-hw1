@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <title>C днём рождения!</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/global.css">
+  </head>
+  <body>
+    <div class="container">
+      <header class="header"><a class="selectel-link" href="https://selectel.ru/"><img src="img/logo.png" alt="Selectel" height="35" width="169"></a></header>
+      <main>
+        <div class="carousel">
+          <div class="carousel__window">
+            <div class="carousel__items-container"><img class="carousel__item carousel__item--active" src="img/pic_01.jpg" alt="image"><img class="carousel__item" src="img/pic_02.jpg" alt="image"><img class="carousel__item" src="img/pic_03.png" alt="image"></div>
+          </div>
+          <div class="carousel__buttons-container"><a class="carousel__item-button carousel__item-button--active" href="#"></a><a class="carousel__item-button" href="#"></a><a class="carousel__item-button" href="#"></a></div><a class="carousel__move-button carousel__move-button--prev" href="#"></a><a class="carousel__move-button carousel__move-button--next" href="#"></a>
+        </div>
+        <section class="congratulation">
+          <h1>У Тирекса скоро День Рождения!</h1>
+          <p>Осталось:</p>
+          <div class="timer"><span class="timer__time-unit timer__time-unit--hours">00</span><span class="timer__colon">:</span><span class="timer__time-unit timer__time-unit--minutes">00</span><span class="timer__colon">:</span><span class="timer__time-unit timer__time-unit--seconds">00</span></div><a class="button" id="sendCardButton" href="#">Отправить открытку</a>
+        </section>
+      </main>
+      <footer class="footer">
+        <p>Подписывайтесь на Тирекса:</p><a class="vk-button" href="https://vk.com/trex_from_selectel" target="_blank"></a>
+      </footer>
+    </div>
+    <div class="modal">
+      <form class="modal__form">
+        <h3 class="modal__header">Поздравить Тирекса</h3>
+        <input class="modal__field modal__field--name" type="text" name="name" placeholder="Ваше имя">
+        <p class="modal__error modal__error--name">Поле не заполнено!</p>
+        <div class="modal__icon modal__icon--name modal__icon--error"></div>
+        <div class="modal__icon modal__icon--name modal__icon--good"></div>
+        <textarea class="modal__field modal__field--text" name="congratulation" placeholder="Поздравление"></textarea>
+        <p class="modal__error modal__error--text">Поле не заполнено!</p>
+        <div class="modal__icon modal__icon--text modal__icon--error"></div>
+        <div class="modal__icon modal__icon--text modal__icon--good"></div>
+        <input class="button" type="submit" value="Поздравить">
+        <div class="modal__close-button"></div>
+      </form>
+      <div class="modal__info">
+        <h3 class="modal__header--info">Спасибо!</h3>
+        <p>Тирекс получил уже&nbsp;<span class="modal__number">0</span>&nbsp;поздравлений!<br>В мире стало на одного счастливого динозавра больше!</p>
+        <div class="modal__close-button"></div>
+      </div>
+    </div>
+    <script src="js/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "hw1",
+  "version": "1.0.0",
+  "description": "Loftschool node.js course homework #1",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/art-bazhin/node-hw1.git"
+  },
+  "author": "Artem Bazhin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/art-bazhin/node-hw1/issues"
+  },
+  "homepage": "https://github.com/art-bazhin/node-hw1#readme",
+  "dependencies": {
+    "yargs": "^11.0.0"
+  }
+}
