@@ -1,5 +1,14 @@
 const path = require('path');
 
+/**
+ * Creates an array of objects which looks like
+ * { src: 'path/to/the/source/file', dest: 'path/to/the/dest/file' }
+ * from the array of source files paths and destination folder path
+ *
+ * @param {Array.<string>} files - Array of source files paths
+ * @param {string} dest - Destination folder path
+ * @returns {Array}
+ */
 module.exports = function (files, dest) {
   let filesCount = {};
 

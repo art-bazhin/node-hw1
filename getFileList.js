@@ -1,37 +1,38 @@
 const fs = require('fs');
 const path = require('path');
+const promisify = require('util').promisify;
 
+const readdir = promisify(fs.readdir);
+const stat = promisify(fs.stat);
 const handle = require('./handleError');
 
-function getDirFiles (dir, cb, obj) {
-  fs.readdir(dir, (err, files) => {
-    handle(err);
+const fileList = [];
 
-    obj.total += files.length;
-    obj.counter++;
+/**
+ * Creates a list of all files in directory and its subdirectories
+ *
+ * @param {string} dir - Path to the directory
+ * @returns {Promise.<Array>}
+ */
+async function getFileList (dir) {
+  try {
+    const files = await readdir(dir);
 
-    files.forEach(str => {
+    await Promise.all(files.map(async str => {
       let fullPath = path.resolve(dir, str);
-      fs.stat(fullPath, (err, stat) => {
-        handle(err);
+      let fileStat = await stat(fullPath);
 
-        if (stat.isFile()) {
-          obj.files.push(fullPath);
-          obj.counter++;
-        } else if (stat.isDirectory()) {
-          getDirFiles(fullPath, cb, obj);
-        }
+      if (fileStat.isFile()) {
+        fileList.push(fullPath);
+      } else if (fileStat.isDirectory()) {
+        await getFileList(fullPath);
+      }
+    }));
 
-        if (obj.total === obj.counter) cb(obj.files);
-      });
-    });
-  });
+    return fileList;
+  } catch (err) {
+    handle(err);
+  }
 }
 
-module.exports = function (dir, cb) {
-  getDirFiles(dir, cb, {
-    files: [],
-    total: 1,
-    counter: 0
-  });
-};
+module.exports = getFileList;

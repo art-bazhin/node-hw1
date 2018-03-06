@@ -1,7 +1,7 @@
 const sortFiles = require('./sortFiles');
 
 const args = require('yargs')
-  .usage('Usage: node $0 [path/to/src/dir] [--dest path/to/dest/dir] [--rm]')
+  .usage('Usage: node $0 [--src path/to/src/dir] [--dest path/to/dest/dir] [--rm]')
   .options({
     src: {
       describe: 'source folder',
@@ -12,11 +12,9 @@ const args = require('yargs')
       default: 'dest'
     },
     rm: {
-      describe: 'source folder deletion flag',
+      describe: 'source folder removing flag',
       default: false
     }
   }).argv;
 
-sortFiles(args, () => {
-  console.log('SUCCESS');
-});
+sortFiles(args).then(() => console.log('SUCCESS'));
